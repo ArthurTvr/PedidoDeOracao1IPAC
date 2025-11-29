@@ -74,58 +74,82 @@ async function carregarPedidos() {
       return;
     }
 
-    // Ordenar por data (mais recentes primeiro)
+    // Ordena por data
     dados.sort((a, b) => new Date(b.data) - new Date(a.data));
 
     dados.forEach((item) => {
-      const id = item.id; // ID real da planilha
+      const id = item.id;
       const reactedKey = "react_done_" + id;
 
       container.innerHTML += `
         <div class="card">
-            <div class="reaction-badge" data-id="${id}">
-                🙏 <span>${item.reacoes || 0}</span>
-            </div>
-            <h3>${item.nome}</h3>
-            <p>${item.pedido}</p>
-            <div class="date">${item.data}</div>
+          <div class="reaction-badge" data-id="${id}">
+            🙏 <span>${item.reacoes || 0}</span>
+          </div>
+          <h3>${item.nome}</h3>
+          <p>${item.pedido}</p>
+          <div class="date">${item.data}</div>
         </div>`;
     });
 
-    // Ativar reações
+    // Ativar reação
     document.querySelectorAll(".reaction-badge").forEach((btn) => {
       btn.addEventListener("click", async (e) => {
         e.stopPropagation();
-
         const id = btn.getAttribute("data-id");
         const reactedKey = "react_done_" + id;
 
-        if (localStorage.getItem(reactedKey)) return; // 1 reação por pessoa
+        if (localStorage.getItem(reactedKey)) {
+          btn.style.transform = "scale(0.9)";
+          setTimeout(() => (btn.style.transform = "scale(1)"), 150);
+          return;
+        }
 
         localStorage.setItem(reactedKey, "1");
 
-        // Enviar +1 para Apps Script
+        // Enviar +1 para o Apps Script e obter o total atualizado
         const res = await fetch(API_URL, {
           method: "POST",
           body: JSON.stringify({ reagir: true, id }),
           cache: "no-store",
         });
-
         const data = await res.json();
 
-        // Atualizar contador na tela
-        const span = btn.querySelector("span");
-        if (span) span.innerText = data.reacoes;
+        // Atualizar contador com valor real da planilha
+        if (data.reacoes !== undefined) {
+          btn.querySelector("span").innerText = data.reacoes;
+        }
 
         btn.style.transform = "scale(1.25)";
         setTimeout(() => (btn.style.transform = "scale(1)"), 150);
       });
     });
+
   } catch (e) {
     container.innerHTML = `<p style="text-align:center; color:gray;">Erro ao carregar.</p>`;
-    console.log(e);
+    console.error(e);
   }
 }
+
+// Atualização periódica das reações sem recarregar toda a lista
+setInterval(async () => {
+  const badges = document.querySelectorAll(".reaction-badge");
+  if (!badges.length) return;
+
+  try {
+    const res = await fetch(API_URL + "?nocache=" + Date.now(), { cache: "no-store" });
+    const dados = await res.json();
+
+    dados.forEach((item) => {
+      const badge = document.querySelector(`.reaction-badge[data-id='${item.id}']`);
+      if (badge) {
+        badge.querySelector("span").innerText = item.reacoes || 0;
+      }
+    });
+  } catch (e) {
+    console.log("Erro ao atualizar reações:", e);
+  }
+}, 5000); // a cada 5 segundos
 
 carregarPedidos();
 
