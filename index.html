@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <title>Pedidos de Oração 1IPAC</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+  </head>
+  <body>
+    <header>
+      <div class="dark-toggle" onclick="toggleDark()">🌙</div>
+
+      <div class="logo">
+        <img
+          class="logo-preto"
+          src="./assets/logo-ipb-preto.png"
+          alt="Logo IPB"
+        />
+        <img
+          class="logo-branco"
+          src="./assets/logo-ipb-branco.png"
+          alt="Logo IPB"
+          style="opacity: 0"
+        />
+      </div>
+
+      <h2>Pedidos de Oração</h2>
+    </header>
+
+    <div class="tabs">
+      <div class="tab active" onclick="openTab('lista')">📜 Pedidos</div>
+      <div class="tab" onclick="openTab('novo')">🙏 Novo Pedido</div>
+    </div>
+
+    <!-- LISTA -->
+    <div id="lista" class="content active">
+      <div id="listaContainer"></div>
+    </div>
+
+    <!-- FORMULÁRIO -->
+    <div id="novo" class="content">
+      <input type="text" id="nome" placeholder="Seu nome (opcional)" />
+      <textarea
+        id="pedido"
+        placeholder="Seu pedido de oração"
+        required
+      ></textarea>
+      <button onclick="enviarPedido()">Enviar Pedido</button>
+      <p id="status"></p>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
