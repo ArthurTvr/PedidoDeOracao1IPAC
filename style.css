@@ -51,7 +51,7 @@ header {
   position: absolute;
   top: 0;
   left: 0;
-  width: 120px;
+  width: 204px;
   transition: opacity 0.3s;
 }
 
@@ -222,4 +222,11 @@ button:hover {
 
 .card {
   position: relative;
+}
+
+.versicle{
+  font-size: 13px;
+  font-style: italic;
+  margin-top: 8px;
+  color: var(--text);
 }
