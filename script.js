@@ -92,7 +92,7 @@ async function carregarPedidos() {
           </div>
           <h3>${item.nome}</h3>
           <p>${item.pedido}</p>
-          <div class="date">${item.data}</div>
+          <div class="date">${formatDateISO(item.data)}</div>
         </div>`;
     });
 
@@ -180,4 +180,16 @@ function toggleLight() {
   branco.style.opacity = "0";
   document.querySelector(".light-toggle").style.display = "none";
   document.querySelector(".dark-toggle").style.display = "block";
+}
+
+
+function formatDateISO(isoDate) {
+  const d = new Date(isoDate);
+  return d.toLocaleString("pt-BR", { 
+    day: "2-digit", 
+    month: "2-digit", 
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
 }
