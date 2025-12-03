@@ -1,3 +1,4 @@
+
 /* 🎨 Variáveis */
 :root {
   --bg: #f5f5f5;
@@ -52,21 +53,23 @@ header {
   top: 0;
   left: 0;
   width: 240px;
-  transition: opacity 0.3s;
+  transition: opacity 0.6s;
 }
 
 h2 {
   margin-top: 5px;
 }
 
-/* Botão modo escuro */
-.dark-toggle {
+/* Botão modo escuro e claro */
+.dark-toggle, .light-toggle {
   position: absolute;
   right: 15px;
   top: 15px;
   font-size: 22px;
   cursor: pointer;
   user-select: none;
+  animation: fade 1s;
+  
 }
 
 /* Abas */

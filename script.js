@@ -1,3 +1,4 @@
+
 const API_URL =
   "https://script.google.com/macros/s/AKfycbxJCXXQCBWyyys8pMmjjIwGMsgik42QQqdnRxlPsgA3XqcKbDzI64CSvVMbkIHCgb9EDA/exec";
 
@@ -16,11 +17,14 @@ function toggleDark() {
 
   const preto = document.querySelector(".logo-preto");
   const branco = document.querySelector(".logo-branco");
-
+  const lightToggle = document.querySelector(".light-toggle");
+  const darkToggle = document.querySelector(".dark-toggle");
   if (document.body.classList.contains("dark")) {
     preto.style.opacity = "0";
     branco.style.opacity = "1";
     branco.style.display = "block";
+    darkToggle.style.display = "none";
+    lightToggle.style.display = "block";    
   } else {
     preto.style.opacity = "1";
     branco.style.opacity = "0";
@@ -167,4 +171,13 @@ setInterval(async () => {
   } catch {}
 }, 10000);
 
-//fim
+//toggle light mode
+function toggleLight() {
+  document.body.classList.remove("dark");
+  const preto = document.querySelector(".logo-preto");
+  const branco = document.querySelector(".logo-branco");
+  preto.style.opacity = "1";
+  branco.style.opacity = "0";
+  document.querySelector(".light-toggle").style.display = "none";
+  document.querySelector(".dark-toggle").style.display = "block";
+}
